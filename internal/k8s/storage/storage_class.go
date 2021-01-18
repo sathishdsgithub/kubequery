@@ -14,12 +14,20 @@ import (
 
 	"github.com/Uptycs/kubequery/internal/k8s"
 	"github.com/kolide/osquery-go/plugin/table"
+	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/storage/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 type storageClass struct {
-	v1.StorageClass
+	k8s.CommonFields
+	Provisioner          string
+	Parameters           map[string]string
+	ReclaimPolicy        *corev1.PersistentVolumeReclaimPolicy
+	MountOptions         []string
+	AllowVolumeExpansion *bool
+	VolumeBindingMode    *v1.VolumeBindingMode
+	AllowedTopologies    []corev1.TopologySelectorTerm
 }
 
 // SGClassColumns TODO
@@ -40,7 +48,14 @@ func SGClassesGenerate(ctx context.Context, queryContext table.QueryContext) ([]
 
 		for _, c := range classes.Items {
 			item := &storageClass{
-				StorageClass: c,
+				CommonFields:         k8s.GetCommonFields(c.ObjectMeta),
+				Provisioner:          c.Provisioner,
+				Parameters:           c.Parameters,
+				ReclaimPolicy:        c.ReclaimPolicy,
+				MountOptions:         c.MountOptions,
+				AllowVolumeExpansion: c.AllowVolumeExpansion,
+				VolumeBindingMode:    c.VolumeBindingMode,
+				AllowedTopologies:    c.AllowedTopologies,
 			}
 			results = append(results, k8s.ToMap(item))
 		}

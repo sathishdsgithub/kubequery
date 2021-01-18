@@ -14,11 +14,19 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+	"strings"
 
 	"github.com/iancoleman/strcase"
 	"github.com/kolide/osquery-go/plugin/table"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
+
+func makeKey(name string) string {
+	if strings.Contains(name, "IPs") {
+		name = strings.Replace(name, "IPs", "Ips", 1)
+	}
+	return strcase.ToSnake(name)
+}
 
 func getFieldValue(field reflect.Value) string {
 	tp := field.Type()
@@ -93,7 +101,7 @@ func ToMap(obj interface{}) map[string]string {
 				item[k] = v
 			}
 		} else {
-			key := strcase.ToSnake(name)
+			key := makeKey(name)
 			str := getFieldValue(val.Field(i))
 			if str != "" {
 				item[key] = str
@@ -107,7 +115,7 @@ func ToMap(obj interface{}) map[string]string {
 func getFieldSchema(name string, field reflect.Value) table.ColumnDefinition {
 	tp := field.Type()
 	kind := tp.Kind()
-	key := strcase.ToSnake(name)
+	key := makeKey(name)
 
 	if kind == reflect.Ptr {
 		tp = field.Type().Elem()

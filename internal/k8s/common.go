@@ -10,7 +10,6 @@
 package k8s
 
 import (
-	"github.com/jinzhu/copier"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -164,8 +163,35 @@ type CommonPodFields struct {
 
 // GetCommonPodFields TODO
 func GetCommonPodFields(p v1.PodSpec) CommonPodFields {
-	item := CommonPodFields{}
-	copier.Copy(item, p)
+	item := CommonPodFields{
+		NodeSelector:                  p.NodeSelector,
+		RestartPolicy:                 p.RestartPolicy,
+		TerminationGracePeriodSeconds: p.TerminationGracePeriodSeconds,
+		ActiveDeadlineSeconds:         p.ActiveDeadlineSeconds,
+		DNSPolicy:                     p.DNSPolicy,
+		ServiceAccountName:            p.ServiceAccountName,
+		AutomountServiceAccountToken:  p.AutomountServiceAccountToken,
+		NodeName:                      p.NodeName,
+		HostNetwork:                   p.HostNetwork,
+		HostPID:                       p.HostPID,
+		HostIPC:                       p.HostIPC,
+		ShareProcessNamespace:         p.ShareProcessNamespace,
+		ImagePullSecrets:              p.ImagePullSecrets,
+		Hostname:                      p.Hostname,
+		Subdomain:                     p.Subdomain,
+		SchedulerName:                 p.SchedulerName,
+		Tolerations:                   p.Tolerations,
+		HostAliases:                   p.HostAliases,
+		PriorityClassName:             p.PriorityClassName,
+		Priority:                      p.Priority,
+		ReadinessGates:                p.ReadinessGates,
+		RuntimeClassName:              p.RuntimeClassName,
+		EnableServiceLinks:            p.EnableServiceLinks,
+		PreemptionPolicy:              p.PreemptionPolicy,
+		Overhead:                      p.Overhead,
+		TopologySpreadConstraints:     p.TopologySpreadConstraints,
+		SetHostnameAsFQDN:             p.SetHostnameAsFQDN,
+	}
 	if p.Affinity != nil {
 		item.NodeAffinity = p.Affinity.NodeAffinity
 		item.PodAffinity = p.Affinity.PodAffinity
@@ -177,7 +203,13 @@ func GetCommonPodFields(p v1.PodSpec) CommonPodFields {
 		item.DNSConfigOptions = p.DNSConfig.Options
 	}
 	if p.SecurityContext != nil {
-		copier.Copy(&item, &p.SecurityContext)
+		item.RunAsUser = p.SecurityContext.RunAsUser
+		item.RunAsGroup = p.SecurityContext.RunAsGroup
+		item.RunAsNonRoot = p.SecurityContext.RunAsNonRoot
+		item.SupplementalGroups = p.SecurityContext.SupplementalGroups
+		item.Sysctls = p.SecurityContext.Sysctls
+		item.FSGroup = p.SecurityContext.FSGroup
+		item.FSGroupChangePolicy = p.SecurityContext.FSGroupChangePolicy
 		if p.SecurityContext.SeccompProfile != nil {
 			item.SeccompProfileType = p.SecurityContext.SeccompProfile.Type
 			item.SeccompProfileLocalhostProfile = p.SecurityContext.SeccompProfile.LocalhostProfile
@@ -225,22 +257,75 @@ type CommonContainerFields struct {
 
 // GetCommonContainerFields TODO
 func GetCommonContainerFields(c v1.Container) CommonContainerFields {
-	item := CommonContainerFields{}
-	copier.Copy(item, c)
+	item := CommonContainerFields{
+		Image:                    c.Image,
+		Command:                  c.Command,
+		Args:                     c.Args,
+		WorkingDir:               c.WorkingDir,
+		Ports:                    c.Ports,
+		EnvFrom:                  c.EnvFrom,
+		Env:                      c.Env,
+		Resources:                c.Resources,
+		VolumeMounts:             c.VolumeMounts,
+		VolumeDevices:            c.VolumeDevices,
+		LivenessProbe:            c.LivenessProbe,
+		ReadinessProbe:           c.ReadinessProbe,
+		StartupProbe:             c.StartupProbe,
+		Lifecycle:                c.Lifecycle,
+		TerminationMessagePath:   c.TerminationMessagePath,
+		TerminationMessagePolicy: c.TerminationMessagePolicy,
+		ImagePullPolicy:          c.ImagePullPolicy,
+		Stdin:                    c.Stdin,
+		StdinOnce:                c.StdinOnce,
+		TTY:                      c.TTY,
+	}
+	copyContainerSecurityContext(&item, c.SecurityContext)
 	return item
 }
 
 // GetCommonEphemeralContainerFields TODO
 func GetCommonEphemeralContainerFields(c v1.EphemeralContainer) CommonContainerFields {
-	item := CommonContainerFields{}
-	copier.Copy(item, c)
+	item := CommonContainerFields{
+		TargetContainerName:      c.TargetContainerName,
+		Image:                    c.Image,
+		Command:                  c.Command,
+		Args:                     c.Args,
+		WorkingDir:               c.WorkingDir,
+		Ports:                    c.Ports,
+		EnvFrom:                  c.EnvFrom,
+		Env:                      c.Env,
+		Resources:                c.Resources,
+		VolumeMounts:             c.VolumeMounts,
+		VolumeDevices:            c.VolumeDevices,
+		LivenessProbe:            c.LivenessProbe,
+		ReadinessProbe:           c.ReadinessProbe,
+		StartupProbe:             c.StartupProbe,
+		Lifecycle:                c.Lifecycle,
+		TerminationMessagePath:   c.TerminationMessagePath,
+		TerminationMessagePolicy: c.TerminationMessagePolicy,
+		ImagePullPolicy:          c.ImagePullPolicy,
+		Stdin:                    c.Stdin,
+		StdinOnce:                c.StdinOnce,
+		TTY:                      c.TTY,
+	}
 	copyContainerSecurityContext(&item, c.SecurityContext)
 	return item
 }
 
 func copyContainerSecurityContext(item *CommonContainerFields, sc *v1.SecurityContext) {
 	if sc != nil {
-		copier.Copy(item, sc)
+		item.Privileged = sc.Privileged
+		item.RunAsUser = sc.RunAsUser
+		item.RunAsGroup = sc.RunAsGroup
+		item.RunAsNonRoot = sc.RunAsNonRoot
+		item.ReadOnlyRootFilesystem = sc.ReadOnlyRootFilesystem
+		item.AllowPrivilegeEscalation = sc.AllowPrivilegeEscalation
+		item.ProcMount = sc.ProcMount
+
+		if sc.Capabilities != nil {
+			item.CapabilitiesAdd = sc.Capabilities.Add
+			item.CapabilitiesDrop = sc.Capabilities.Drop
+		}
 		if sc.SeccompProfile != nil {
 			item.SeccompProfileType = sc.SeccompProfile.Type
 			item.SeccompProfileLocalhostProfile = sc.SeccompProfile.LocalhostProfile
