@@ -1,0 +1,72 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/component: cluster
+    app.kubernetes.io/version: "1.0.0"
+  name: kubequery
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubequery-sa
+  namespace: kubequery
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kubequery-role
+  namespace: kubequery
+rules:
+- apiGroups: [""] # TODO
+  resources: ["*"]
+  verbs: ["get", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kubequery-rolebinding
+  namespace: kubequery
+roleRef:
+  apiGroup: ""
+  kind: Role
+  name: kubequery-role
+subjects:
+- kind: ServiceAccount
+  name: kubequery-sa
+  namespace: kubequery
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kubequery
+  name: kubequery
+  namespace: kubequery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubequery
+  template:
+    metadata:
+      labels:
+        app: kubequery
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: kubequery
+          image: kubequery:latest # TODO
+          resources:
+            limits:
+              cpu: 500m
+              memory: 200Mi
+            requests:
+              cpu: 500m
+              memory: 200Mi
+      serviceAccountName: kubequery-sa
