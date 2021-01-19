@@ -28,5 +28,4 @@ RUN set -ex; \
     /etc/init.d/osqueryd stop && \
     rm -rf /var/osquery/* /var/log/osquery/* /var/lib/apt/lists/* /var/cache/apt/* /tmp/*
 
-# TODO
-ENTRYPOINT ["sleep", "3600"]
+ENTRYPOINT ["/usr/bin/osqueryd", "--flagfile=/etc/osquery/osquery.flags", "--config_path=/etc/osquery/osquery.conf", "--extension=/usr/bin/kubequery"]

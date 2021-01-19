@@ -19,7 +19,7 @@ test:
 	go test -race -cover ./...
 
 docker: kubequery
-	docker build -t kubequery .
+	docker build -t uptycs/kubequery .
 
 clean:
 	rm -rf kubequery
