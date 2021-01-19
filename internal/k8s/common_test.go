@@ -12,15 +12,26 @@ package k8s
 import (
 	"testing"
 
-	"github.com/bxcodec/faker/v3"
 	"github.com/stretchr/testify/assert"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 )
 
 func TestGetCommonFields(t *testing.T) {
-	meta := metav1.ObjectMeta{}
-	faker.FakeData(&meta)
+	meta := metav1.ObjectMeta{
+		Name:                       "n123",
+		GenerateName:               "g123",
+		Namespace:                  "kube-system",
+		SelfLink:                   "/",
+		UID:                        types.UID("u123"),
+		ResourceVersion:            "r123",
+		Generation:                 1,
+		CreationTimestamp:          metav1.Time{},
+		DeletionGracePeriodSeconds: nil,
+		Labels:                     map[string]string{"a": "b"},
+		ClusterName:                "",
+	}
 	assert.Equal(t, GetCommonFields(meta), CommonFields{
 		UID:               meta.UID,
 		Name:              meta.Name,
@@ -32,8 +43,19 @@ func TestGetCommonFields(t *testing.T) {
 }
 
 func TestGetNamespaceCommonFields(t *testing.T) {
-	meta := metav1.ObjectMeta{}
-	faker.FakeData(&meta)
+	meta := metav1.ObjectMeta{
+		Name:                       "n123",
+		GenerateName:               "g123",
+		Namespace:                  "kube-system",
+		SelfLink:                   "/",
+		UID:                        types.UID("u123"),
+		ResourceVersion:            "r123",
+		Generation:                 1,
+		CreationTimestamp:          metav1.Time{},
+		DeletionGracePeriodSeconds: nil,
+		Annotations:                map[string]string{"a": "b"},
+		ClusterName:                "",
+	}
 	assert.Equal(t, GetCommonNamespacedFields(meta), CommonNamespacedFields{
 		UID:               meta.UID,
 		Name:              meta.Name,
