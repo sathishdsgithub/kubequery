@@ -14,9 +14,7 @@ import (
 	"k8s.io/client-go/rest"
 )
 
-var (
-	clientset *kubernetes.Clientset
-)
+var clientset kubernetes.Interface
 
 // Init TODO
 func Init() error {
@@ -34,6 +32,11 @@ func Init() error {
 }
 
 // GetClient TODO
-func GetClient() *kubernetes.Clientset {
+func GetClient() kubernetes.Interface {
 	return clientset
+}
+
+// SetClient TODO
+func SetClient(c kubernetes.Interface) {
+	clientset = c
 }
