@@ -17,5 +17,15 @@ Go 1.15 and make are required to build kubequery. Run:
 
 ## FAQ
 
-* Kubernetes events support
+* Kubernetes events support?
+
+`kubenetes_events` table can be easily implemented in kubequery as traditional table. But ideally it should be a streaming events table similar to `process_events` etc in Osquery. Unfortunately Osquery does not support event tables in extensions currently. Buffering the data in extension and periodically sending it in response to a query is one option, but it is not ideal.
+
 * Why are some columns JSON?
+
+Normalizing nested JSON data like Kubernetes API responses will create an explosion of tables. So some of the columns in kuberenetes tables are left as JSON. Data is eventually processed by [SQLite](https://www.sqlite.org/index.html) with in Osquery. SQLite has very [good JSON](https://www.sqlite.org/json1.html) support. To get the `value` of `rule` in `run_as_user` column from `kubernetes_pod_security_policies` table, the following query can be used:
+```sql
+  SELECT value FROM kubernetes_pod_security_policies, json_tree(kubernetes_pod_security_policies.run_as_user) WHERE key = 'rule';
+```
+
+When streaming data (example: Osquery TLS) from various kubernetes clusters, Lamba like functions can be applied on rows of data. Labmda can extract necessary fields from embedded JSON. If tables are normalized, it will not be trivial to JOIN across them and trigger events/alerts.

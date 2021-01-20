@@ -20,7 +20,7 @@ kind: ClusterRole
 metadata:
   name: kubequery-clusterrole
 rules:
-- apiGroups: [""]
+- apiGroups: ["", "admissionregistration.k8s.io", "apps", "autoscaling", "batch", "networking.k8s.io", "policy", "rbac.authorization.k8s.io", "storage.k8s.io"]
   resources: ["*"]
   verbs: ["get", "list"]
 
@@ -46,7 +46,7 @@ metadata:
   namespace: kubequery
 data:
   osquery.flags: |
-    --extension=/usr/bin/kubequery
+    --disable_memory=true
   osquery.conf: |
     {
       "schedule": {
@@ -77,6 +77,10 @@ spec:
       labels:
         app: kubequery
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       terminationGracePeriodSeconds: 10
       serviceAccountName: kubequery-sa
       containers:
@@ -91,7 +95,7 @@ spec:
               memory: 200Mi
           volumeMounts:
           - name: config
-            mountPath: /etc/osquery
+            mountPath: /opt/kubequery/etc
       volumes:
       - name: config
         configMap:

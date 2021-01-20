@@ -501,6 +501,7 @@ CREATE TABLE kubernetes_horizontal_pod_autoscalers(
 );
 
 CREATE TABLE kubernetes_info(
+    `cluster_uid` TEXT,
     `major` TEXT,
     `minor` TEXT,
     `git_version` TEXT,

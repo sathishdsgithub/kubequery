@@ -14,10 +14,12 @@ import (
 
 	"github.com/Uptycs/kubequery/internal/k8s"
 	"github.com/kolide/osquery-go/plugin/table"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/version"
 )
 
 type info struct {
+	ClusterUID types.UID
 	version.Info
 }
 
@@ -36,7 +38,8 @@ func InfoGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[s
 	}
 
 	item := &info{
-		Info: *sv,
+		ClusterUID: k8s.GetClusterUID(),
+		Info:       *sv,
 	}
 	results = append(results, k8s.ToMap(item))
 
