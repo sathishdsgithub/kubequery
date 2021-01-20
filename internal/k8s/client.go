@@ -10,15 +10,22 @@
 package k8s
 
 import (
+	"context"
+	"sync"
+
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )
 
-var clientset kubernetes.Interface
+var (
+	lock       sync.Mutex
+	clientset  kubernetes.Interface
+	clusterUID types.UID
+)
 
-// Init creates in-cluster kubernetes configuration and a client set using the configuration.
-// This returns error if KUBERNETES_SERVICE_HOST or KUBERNETES_SERVICE_PORT environment variables are not set.
-func Init() error {
+func initClientset() error {
 	config, err := rest.InClusterConfig()
 	if err != nil {
 		return err
@@ -28,17 +35,52 @@ func Init() error {
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func initUID() error {
+	ks, err := GetClient().CoreV1().Namespaces().Get(context.TODO(), "kube-system", v1.GetOptions{})
+	if err != nil {
+		return err
+	}
+	clusterUID = ks.UID
+	return nil
+}
+
+// Init creates in-cluster kubernetes configuration and a client set using the configuration.
+// This returns error if KUBERNETES_SERVICE_HOST or KUBERNETES_SERVICE_PORT environment variables are not set.
+func Init() error {
+	lock.Lock()
+	defer lock.Unlock()
+
+	err := initClientset()
+	if err != nil {
+		return err
+	}
+	err = initUID()
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
 
 // GetClient returns kubernetes interface that can be used to communicate with API server.
-// Init function should be called before this function is called
 func GetClient() kubernetes.Interface {
 	return clientset
 }
 
+// GetClusterUID returns unique identifier for the current kubernetes cluster.
+// This is same as the kube-system namespace UID.
+func GetClusterUID() types.UID {
+	return clusterUID
+}
+
 // SetClient is helper function to override the kubernetes interface with fake one for testing.
-func SetClient(c kubernetes.Interface) {
+func SetClient(c kubernetes.Interface, u types.UID) {
+	lock.Lock()
+	defer lock.Unlock()
+
 	clientset = c
+	clusterUID = u
 }

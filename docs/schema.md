@@ -2,6 +2,7 @@
 CREATE TABLE kubernetes_csi_drivers(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `creation_timestamp` BIGINT,
     `labels` TEXT,
@@ -25,6 +26,7 @@ CREATE TABLE kubernetes_csi_node_drivers(
 CREATE TABLE kubernetes_daemon_set_containers(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -76,6 +78,7 @@ CREATE TABLE kubernetes_daemon_set_containers(
 CREATE TABLE kubernetes_daemon_set_volumes(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -170,6 +173,7 @@ CREATE TABLE kubernetes_daemon_set_volumes(
 CREATE TABLE kubernetes_daemon_sets(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -243,6 +247,7 @@ CREATE TABLE kubernetes_daemon_sets(
 CREATE TABLE kubernetes_deployments(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -317,6 +322,7 @@ CREATE TABLE kubernetes_deployments(
 CREATE TABLE kubernetes_deployments_containers(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -368,6 +374,7 @@ CREATE TABLE kubernetes_deployments_containers(
 CREATE TABLE kubernetes_deployments_volumes(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -462,6 +469,7 @@ CREATE TABLE kubernetes_deployments_volumes(
 CREATE TABLE kubernetes_endpoint_subsets(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -475,6 +483,7 @@ CREATE TABLE kubernetes_endpoint_subsets(
 CREATE TABLE kubernetes_horizontal_pod_autoscalers(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -506,6 +515,7 @@ CREATE TABLE kubernetes_info(
 CREATE TABLE kubernetes_ingress_classes(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `creation_timestamp` BIGINT,
     `labels` TEXT,
@@ -517,6 +527,7 @@ CREATE TABLE kubernetes_ingress_classes(
 CREATE TABLE kubernetes_ingresses(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -532,6 +543,7 @@ CREATE TABLE kubernetes_ingresses(
 CREATE TABLE kubernetes_jobs(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -604,6 +616,7 @@ CREATE TABLE kubernetes_jobs(
 CREATE TABLE kubernetes_limit_ranges(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -634,6 +647,7 @@ CREATE TABLE kubernetes_mutating_webhooks(
 CREATE TABLE kubernetes_namespaces(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `creation_timestamp` BIGINT,
     `labels` TEXT,
@@ -645,6 +659,7 @@ CREATE TABLE kubernetes_namespaces(
 CREATE TABLE kubernetes_network_policies(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -659,6 +674,7 @@ CREATE TABLE kubernetes_network_policies(
 CREATE TABLE kubernetes_nodes(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `creation_timestamp` BIGINT,
     `labels` TEXT,
@@ -686,6 +702,7 @@ CREATE TABLE kubernetes_nodes(
 CREATE TABLE kubernetes_persistent_volume_claims(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `creation_timestamp` BIGINT,
     `labels` TEXT,
@@ -705,6 +722,7 @@ CREATE TABLE kubernetes_persistent_volume_claims(
 CREATE TABLE kubernetes_persistent_volumes(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `creation_timestamp` BIGINT,
     `labels` TEXT,
@@ -791,6 +809,7 @@ CREATE TABLE kubernetes_persistent_volumes(
 CREATE TABLE kubernetes_pod_containers(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -849,6 +868,7 @@ CREATE TABLE kubernetes_pod_containers(
 CREATE TABLE kubernetes_pod_disruption_budget(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -868,6 +888,7 @@ CREATE TABLE kubernetes_pod_disruption_budget(
 CREATE TABLE kubernetes_pod_security_policies(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `creation_timestamp` BIGINT,
     `labels` TEXT,
@@ -901,6 +922,7 @@ CREATE TABLE kubernetes_pod_security_policies(
 CREATE TABLE kubernetes_pod_templates(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -960,6 +982,7 @@ CREATE TABLE kubernetes_pod_templates(
 CREATE TABLE kubernetes_pod_volumes(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1054,6 +1077,7 @@ CREATE TABLE kubernetes_pod_volumes(
 CREATE TABLE kubernetes_pods(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1126,6 +1150,7 @@ CREATE TABLE kubernetes_pods(
 CREATE TABLE kubernetes_replica_set_containers(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1177,6 +1202,7 @@ CREATE TABLE kubernetes_replica_set_containers(
 CREATE TABLE kubernetes_replica_set_volumes(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1271,6 +1297,7 @@ CREATE TABLE kubernetes_replica_set_volumes(
 CREATE TABLE kubernetes_replica_sets(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1339,6 +1366,7 @@ CREATE TABLE kubernetes_replica_sets(
 CREATE TABLE kubernetes_resource_quotas(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1354,6 +1382,7 @@ CREATE TABLE kubernetes_resource_quotas(
 CREATE TABLE kubernetes_role_binding_subjects(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1369,6 +1398,7 @@ CREATE TABLE kubernetes_role_binding_subjects(
 CREATE TABLE kubernetes_role_policy_rule(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1384,6 +1414,7 @@ CREATE TABLE kubernetes_role_policy_rule(
 CREATE TABLE kubernetes_secrets(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1396,6 +1427,7 @@ CREATE TABLE kubernetes_secrets(
 CREATE TABLE kubernetes_service_accounts(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1409,6 +1441,7 @@ CREATE TABLE kubernetes_service_accounts(
 CREATE TABLE kubernetes_services(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1439,6 +1472,7 @@ CREATE TABLE kubernetes_services(
 CREATE TABLE kubernetes_stateful_set_containers(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1490,6 +1524,7 @@ CREATE TABLE kubernetes_stateful_set_containers(
 CREATE TABLE kubernetes_stateful_set_volumes(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1584,6 +1619,7 @@ CREATE TABLE kubernetes_stateful_set_volumes(
 CREATE TABLE kubernetes_stateful_sets(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1659,6 +1695,7 @@ CREATE TABLE kubernetes_stateful_sets(
 CREATE TABLE kubernetes_storage_capacities(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `namespace` TEXT,
     `creation_timestamp` BIGINT,
@@ -1672,6 +1709,7 @@ CREATE TABLE kubernetes_storage_capacities(
 CREATE TABLE kubernetes_storage_classes(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `creation_timestamp` BIGINT,
     `labels` TEXT,
@@ -1701,6 +1739,7 @@ CREATE TABLE kubernetes_validating_webhooks(
 CREATE TABLE kubernetes_volume_attachments(
     `uid` TEXT,
     `cluster_name` TEXT,
+    `cluster_uid` TEXT,
     `name` TEXT,
     `creation_timestamp` BIGINT,
     `labels` TEXT,

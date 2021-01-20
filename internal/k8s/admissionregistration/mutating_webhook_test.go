@@ -17,6 +17,7 @@ import (
 	"github.com/kolide/osquery-go/plugin/table"
 	"github.com/stretchr/testify/assert"
 	v1 "k8s.io/api/admissionregistration/v1"
+	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/kubernetes/fake"
 )
 
@@ -36,7 +37,7 @@ func TestMutatingWebhooksGenerate(t *testing.T) {
 				ClientConfig:   v1.WebhookClientConfig{URL: &url},
 			},
 		},
-	}))
+	}), types.UID(""))
 
 	mws, err := MutatingWebhooksGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)

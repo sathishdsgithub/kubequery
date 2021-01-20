@@ -20,6 +20,7 @@ import (
 type CommonFields struct {
 	UID               types.UID
 	ClusterName       string
+	ClusterUID        types.UID
 	Name              string
 	CreationTimestamp metav1.Time
 	Labels            map[string]string
@@ -31,6 +32,7 @@ func GetCommonFields(obj metav1.ObjectMeta) CommonFields {
 	return CommonFields{
 		UID:               obj.UID,
 		ClusterName:       obj.ClusterName,
+		ClusterUID:        GetClusterUID(),
 		Name:              obj.Name,
 		CreationTimestamp: obj.CreationTimestamp,
 		Labels:            obj.Labels,
@@ -43,6 +45,7 @@ func GetCommonFields(obj metav1.ObjectMeta) CommonFields {
 type CommonNamespacedFields struct {
 	UID               types.UID
 	ClusterName       string
+	ClusterUID        types.UID
 	Name              string
 	Namespace         string
 	CreationTimestamp metav1.Time
@@ -55,6 +58,7 @@ func GetCommonNamespacedFields(obj metav1.ObjectMeta) CommonNamespacedFields {
 	return CommonNamespacedFields{
 		UID:               obj.UID,
 		ClusterName:       obj.ClusterName,
+		ClusterUID:        GetClusterUID(),
 		Name:              obj.Name,
 		Namespace:         obj.Namespace,
 		CreationTimestamp: obj.CreationTimestamp,

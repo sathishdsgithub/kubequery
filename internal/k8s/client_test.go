@@ -14,24 +14,32 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"k8s.io/apimachinery/pkg/types"
+	"k8s.io/client-go/kubernetes/fake"
 )
 
-func TestInit(t *testing.T) {
-	err := Init()
+func TestInitClientset(t *testing.T) {
+	err := initClientset()
 	assert.Error(t, err, "Init should fail")
 
 	os.Setenv("KUBERNETES_SERVICE_HOST", "localhost")
 	os.Setenv("KUBERNETES_SERVICE_PORT", "65000")
-	err = Init()
+	err = initClientset()
 	assert.Nil(t, err, "Init should succeed")
 }
 
 func TestGetClient(t *testing.T) {
 	os.Setenv("KUBERNETES_SERVICE_HOST", "localhost")
 	os.Setenv("KUBERNETES_SERVICE_PORT", "65000")
-	err := Init()
+	err := initClientset()
 	assert.Nil(t, err, "Init should succeed")
 
 	clientset := GetClient()
 	assert.NotNil(t, clientset, "Clientset should be valid")
+}
+
+func TestGetClusterUID(t *testing.T) {
+	uid := types.UID("")
+	SetClient(fake.NewSimpleClientset(), uid)
+	assert.Equal(t, uid, GetClusterUID())
 }
