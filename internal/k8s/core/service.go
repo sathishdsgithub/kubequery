@@ -24,12 +24,12 @@ type service struct {
 	v1.ServiceStatus
 }
 
-// ServiceColumns TODO
+// ServiceColumns returns kubernetes service fields as Osquery table columns.
 func ServiceColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&service{})
 }
 
-// ServicesGenerate TODO
+// ServicesGenerate generates the kubernetes services as Osquery table data.
 func ServicesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

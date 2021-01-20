@@ -31,12 +31,12 @@ type job struct {
 	TTLSecondsAfterFinished  *int32
 }
 
-// JobColumns TODO
+// JobColumns returns kubernetes job fields as Osquery table columns.
 func JobColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&job{})
 }
 
-// JobsGenerate TODO
+// JobsGenerate generates the kubernetes jobs as Osquery table data.
 func JobsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

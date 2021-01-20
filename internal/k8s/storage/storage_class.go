@@ -30,12 +30,12 @@ type storageClass struct {
 	AllowedTopologies    []corev1.TopologySelectorTerm
 }
 
-// SGClassColumns TODO
+// SGClassColumns returns kubernetes storage class fields as Osquery table columns.
 func SGClassColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&storageClass{})
 }
 
-// SGClassesGenerate TODO
+// SGClassesGenerate generates the kubernetes storage classes as Osquery table data.
 func SGClassesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

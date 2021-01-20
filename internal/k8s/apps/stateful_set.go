@@ -32,12 +32,12 @@ type statefulSet struct {
 	RevisionHistoryLimit *int32
 }
 
-// StatefulSetColumns TODO
+// StatefulSetColumns returns kubernetes stateful set fields as Osquery table columns.
 func StatefulSetColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&statefulSet{})
 }
 
-// StatefulSetsGenerate TODO
+// StatefulSetsGenerate generates the kubernetes stateful sets as Osquery table data.
 func StatefulSetsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)
@@ -80,12 +80,12 @@ type statefulSetContainer struct {
 	ContainerType   string
 }
 
-// StatefulSetContainerColumns TODO
+// StatefulSetContainerColumns returns kubernetes stateful set container fields as Osquery table columns.
 func StatefulSetContainerColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&statefulSetContainer{})
 }
 
-// StatefulSetContainersGenerate TODO
+// StatefulSetContainersGenerate generates the kubernetes stateful set containers as Osquery table data.
 func StatefulSetContainersGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)
@@ -144,12 +144,12 @@ type statefulSetVolume struct {
 	StatefulSetName string
 }
 
-// StatefulSetVolumeColumns TODO
+// StatefulSetVolumeColumns returns kubernetes stateful set volume fields as Osquery table columns.
 func StatefulSetVolumeColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&statefulSetVolume{})
 }
 
-// StatefulSetVolumesGenerate TODO
+// StatefulSetVolumesGenerate generates the kubernetes stateful set volumes as Osquery table data.
 func StatefulSetVolumesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

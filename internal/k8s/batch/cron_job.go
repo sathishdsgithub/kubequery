@@ -37,12 +37,12 @@ type cronJob struct {
 	TTLSecondsAfterFinished    *int32
 }
 
-// CronJobColumns TODO
+// CronJobColumns returns kubernetes cron job fields as Osquery table columns.
 func CronJobColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&cronJob{})
 }
 
-// CronJobsGenerate TODO
+// CronJobsGenerate generates the kubernetes cron jobs as Osquery table data.
 func CronJobsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

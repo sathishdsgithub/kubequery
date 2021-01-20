@@ -22,12 +22,12 @@ type validatingWebhook struct {
 	v1.ValidatingWebhook
 }
 
-// ValidatingWebhookColumns TODO
+// ValidatingWebhookColumns returns kubernetes validating webhook fields as Osquery table columns.
 func ValidatingWebhookColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&validatingWebhook{})
 }
 
-// ValidatingWebhooksGenerate TODO
+// ValidatingWebhooksGenerate generates the kubernetes validating webhooks as Osquery table data.
 func ValidatingWebhooksGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

@@ -23,12 +23,12 @@ type rolePolicyRule struct {
 	v1.PolicyRule
 }
 
-// RolePolicyRuleColumns TODO
+// RolePolicyRuleColumns returns kubernetes role policy rule fields as Osquery table columns.
 func RolePolicyRuleColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&rolePolicyRule{})
 }
 
-// RolePolicyRulesGenerate TODO
+// RolePolicyRulesGenerate generates the kubernetes role policy rules as Osquery table data.
 func RolePolicyRulesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

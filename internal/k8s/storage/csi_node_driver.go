@@ -22,12 +22,12 @@ type csiNodeDriver struct {
 	v1.CSINodeDriver
 }
 
-// CSINodeDriverColumns TODO
+// CSINodeDriverColumns returns kubernetes CSI node driver fields as Osquery table columns.
 func CSINodeDriverColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&csiNodeDriver{})
 }
 
-// CSINodeDriversGenerate TODO
+// CSINodeDriversGenerate generates the kubernetes CSI node drivers as Osquery table data.
 func CSINodeDriversGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

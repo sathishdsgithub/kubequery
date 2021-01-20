@@ -24,12 +24,12 @@ type clusterRolePolicyRule struct {
 	AggregationRule *v1.AggregationRule
 }
 
-// ClusterRolePolicyRuleColumns TODO
+// ClusterRolePolicyRuleColumns returns kubernetes cluster role policy rule fields as Osquery table columns.
 func ClusterRolePolicyRuleColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&clusterRolePolicyRule{})
 }
 
-// ClusterRolePolicyRulesGenerate TODO
+// ClusterRolePolicyRulesGenerate generates the kubernetes cluster role policy rules as Osquery table data.
 func ClusterRolePolicyRulesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

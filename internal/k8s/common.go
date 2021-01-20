@@ -15,7 +15,8 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 )
 
-// CommonFields TODO
+// CommonFields contains fields common to most tables. Contents are derived from kubernetes ObjectMeta.
+// This is used for kubernetes resources that are not namespaced.
 type CommonFields struct {
 	UID               types.UID
 	ClusterName       string
@@ -25,7 +26,7 @@ type CommonFields struct {
 	Annotations       map[string]string
 }
 
-// GetCommonFields TODO
+// GetCommonFields returns CommonFields struct from the provided kubernetes ObjectMeta.
 func GetCommonFields(obj metav1.ObjectMeta) CommonFields {
 	return CommonFields{
 		UID:               obj.UID,
@@ -37,7 +38,8 @@ func GetCommonFields(obj metav1.ObjectMeta) CommonFields {
 	}
 }
 
-// CommonNamespacedFields TODO
+// CommonNamespacedFields contains fields common to most tables. Contents are derived from kubernetes ObjectMeta.
+// This is used for kubernetes resources that are namespaced.
 type CommonNamespacedFields struct {
 	UID               types.UID
 	ClusterName       string
@@ -48,7 +50,7 @@ type CommonNamespacedFields struct {
 	Annotations       map[string]string
 }
 
-// GetCommonNamespacedFields TODO
+// GetCommonNamespacedFields returns CommonNamespacedFields struct from the provided kubernetes ObjectMeta.
 func GetCommonNamespacedFields(obj metav1.ObjectMeta) CommonNamespacedFields {
 	return CommonNamespacedFields{
 		UID:               obj.UID,
@@ -61,7 +63,7 @@ func GetCommonNamespacedFields(obj metav1.ObjectMeta) CommonNamespacedFields {
 	}
 }
 
-// SELinuxOptionsFields TODO
+// SELinuxOptionsFields contains SELinux options as a flat structure.
 type SELinuxOptionsFields struct {
 	SELinuxOptionsUser  string
 	SELinuxOptionsRole  string
@@ -69,20 +71,20 @@ type SELinuxOptionsFields struct {
 	SELinuxOptionsLevel string
 }
 
-// WindowsOptionsFields TODO
+// WindowsOptionsFields contains Windows options as a flat structure.
 type WindowsOptionsFields struct {
 	WindowsOptionsGMSACredentialSpecName *string
 	WindowsOptionsGMSACredentialSpec     *string
 	WindowsOptionsRunAsUserName          *string
 }
 
-// SeccompProfileFields TODO
+// SeccompProfileFields contains Seccomp profile options as a flat stucture.
 type SeccompProfileFields struct {
 	SeccompProfileType             v1.SeccompProfileType
 	SeccompProfileLocalhostProfile *string
 }
 
-// CommonSecurityContextFields TODO
+// CommonSecurityContextFields contains all security options common to a pod and container.
 type CommonSecurityContextFields struct {
 	SELinuxOptionsFields
 	WindowsOptionsFields
@@ -92,7 +94,7 @@ type CommonSecurityContextFields struct {
 	RunAsNonRoot *bool
 }
 
-// PodSecurityContextFields TODO
+// PodSecurityContextFields contains all security options specific to a pod.
 type PodSecurityContextFields struct {
 	CommonSecurityContextFields
 	SupplementalGroups  []int64
@@ -101,7 +103,7 @@ type PodSecurityContextFields struct {
 	FSGroupChangePolicy *v1.PodFSGroupChangePolicy
 }
 
-// SecurityContextFields TODO
+// SecurityContextFields contains all securoty options specific to a container.
 type SecurityContextFields struct {
 	CommonSecurityContextFields
 	CapabilitiesAdd          []v1.Capability
@@ -112,21 +114,22 @@ type SecurityContextFields struct {
 	ProcMount                *v1.ProcMountType
 }
 
-// AffinityFields TODO
+// AffinityFields struct holds flat affinity fields.
 type AffinityFields struct {
 	NodeAffinity    *v1.NodeAffinity
 	PodAffinity     *v1.PodAffinity
 	PodAntiAffinity *v1.PodAntiAffinity
 }
 
-// DNSConfigFields TODO
+// DNSConfigFields struct holds DNS configuration fields.
 type DNSConfigFields struct {
 	DNSConfigNameservers []string
 	DNSConfigSearches    []string
 	DNSConfigOptions     []v1.PodDNSConfigOption
 }
 
-// CommonPodFields TODO
+// CommonPodFields contains relevant fields from pod specification.
+// This flattens some of the embedded structures like security context, DNS config etc.
 type CommonPodFields struct {
 	PodSecurityContextFields
 	AffinityFields
@@ -161,7 +164,8 @@ type CommonPodFields struct {
 	SetHostnameAsFQDN             *bool
 }
 
-// GetCommonPodFields TODO
+// GetCommonPodFields converts pod specification to CommonPodFields structure.
+// This flattens some of the embedded structures like security context, DNS config etc.
 func GetCommonPodFields(p v1.PodSpec) CommonPodFields {
 	item := CommonPodFields{
 		NodeSelector:                  p.NodeSelector,
@@ -229,7 +233,8 @@ func GetCommonPodFields(p v1.PodSpec) CommonPodFields {
 	return item
 }
 
-// CommonContainerFields TODO
+// CommonContainerFields contains relevant fields from container specification.
+// This flattens some of the embedded structures like security context.
 type CommonContainerFields struct {
 	SecurityContextFields
 	TargetContainerName      string
@@ -255,7 +260,8 @@ type CommonContainerFields struct {
 	TTY                      bool
 }
 
-// GetCommonContainerFields TODO
+// GetCommonContainerFields converts container specification to CommonContainerFields structure.
+// This flattens some of the embedded structures like security context.
 func GetCommonContainerFields(c v1.Container) CommonContainerFields {
 	item := CommonContainerFields{
 		Image:                    c.Image,
@@ -283,7 +289,9 @@ func GetCommonContainerFields(c v1.Container) CommonContainerFields {
 	return item
 }
 
-// GetCommonEphemeralContainerFields TODO
+// GetCommonEphemeralContainerFields converts ephemeral container specification to CommonContainerFields.
+// This flattens some of the embedded structures like security context.
+// Ephemeral container contains one additional field (TargetContainerName) on top of container.
 func GetCommonEphemeralContainerFields(c v1.EphemeralContainer) CommonContainerFields {
 	item := CommonContainerFields{
 		TargetContainerName:      c.TargetContainerName,
@@ -344,7 +352,7 @@ func copyContainerSecurityContext(item *CommonContainerFields, sc *v1.SecurityCo
 	}
 }
 
-// CommonVolumeFields TODO
+// CommonVolumeFields contains flattened fields from volume specification.
 type CommonVolumeFields struct {
 	VolumeType                     string
 	FSType                         *string
@@ -431,7 +439,8 @@ type CommonVolumeFields struct {
 	EphemeralVolumeClaimTemplate   *v1.PersistentVolumeClaimTemplate
 }
 
-// GetCommonVolumeFields TODO
+// GetCommonVolumeFields converts volume specification to CommonVolumeFields.
+// This flattens most of the embedded structures like AWSElasticBlockStore, AzureDisk, etc.
 func GetCommonVolumeFields(from v1.Volume) CommonVolumeFields {
 	to := CommonVolumeFields{}
 	if from.AWSElasticBlockStore != nil {

@@ -27,12 +27,12 @@ type replicaSet struct {
 	Selector           *metav1.LabelSelector
 }
 
-// ReplicaSetColumns TODO
+// ReplicaSetColumns returns kubernetes replica set fields as Osquery table columns.
 func ReplicaSetColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&replicaSet{})
 }
 
-// ReplicaSetsGenerate TODO
+// ReplicaSetsGenerate generates the kubernetes replica sets as Osquery table data.
 func ReplicaSetsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)
@@ -71,12 +71,12 @@ type replicaSetContainer struct {
 	ContainerType  string
 }
 
-// ReplicaSetContainerColumns TODO
+// ReplicaSetContainerColumns returns kubernetes replica set container fields as Osquery table columns.
 func ReplicaSetContainerColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&replicaSetContainer{})
 }
 
-// ReplicaSetContainersGenerate TODO
+// ReplicaSetContainersGenerate generates the kubernetes replica set containers as Osquery table data.
 func ReplicaSetContainersGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)
@@ -135,12 +135,12 @@ type replicaSetVolume struct {
 	ReplicaSetName string
 }
 
-// ReplicaSetVolumeColumns TODO
+// ReplicaSetVolumeColumns returns kubernetes replica set volume fields as Osquery table columns.
 func ReplicaSetVolumeColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&replicaSetVolume{})
 }
 
-// ReplicaSetVolumesGenerate TODO
+// ReplicaSetVolumesGenerate generates the kubernetes replica set volumes as Osquery table data.
 func ReplicaSetVolumesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

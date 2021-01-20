@@ -25,12 +25,12 @@ type resourceQuota struct {
 	StatusUsed v1.ResourceList
 }
 
-// ResourceQuotaColumns TODO
+// ResourceQuotaColumns returns kubernetes resource quota fields as Osquery table columns.
 func ResourceQuotaColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&resourceQuota{})
 }
 
-// ResourceQuotasGenerate TODO
+// ResourceQuotasGenerate generates the kubernetes resource quotas as Osquery table data.
 func ResourceQuotasGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

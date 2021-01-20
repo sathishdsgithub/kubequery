@@ -24,12 +24,12 @@ type podDisruptionBudget struct {
 	v1beta1.PodDisruptionBudgetStatus
 }
 
-// PodDisruptionBudgetColumns TODO
+// PodDisruptionBudgetColumns returns kubernetes pod disruption budget fields as Osquery table columns.
 func PodDisruptionBudgetColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&podDisruptionBudget{})
 }
 
-// PodDisruptionBudgetsGenerate TODO
+// PodDisruptionBudgetsGenerate generates the kubernetes pod disruption budgets as Osquery table data.
 func PodDisruptionBudgetsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

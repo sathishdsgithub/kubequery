@@ -21,12 +21,12 @@ type info struct {
 	version.Info
 }
 
-// InfoColumns TODO
+// InfoColumns returns kubernetes info fields as Osquery table columns.
 func InfoColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&info{})
 }
 
-// InfoGenerate TODO
+// InfoGenerate generates the kubernetes info as Osquery table data.
 func InfoGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	results := make([]map[string]string, 0)
 

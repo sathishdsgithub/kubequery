@@ -24,12 +24,12 @@ type ingress struct {
 	v1.IngressStatus
 }
 
-// IngressColumns TODO
+// IngressColumns returns kubernetes ingress fields as Osquery table columns.
 func IngressColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&ingress{})
 }
 
-// IngressesGenerate TODO
+// IngressesGenerate generates the kubernetes ingresses as Osquery table data.
 func IngressesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

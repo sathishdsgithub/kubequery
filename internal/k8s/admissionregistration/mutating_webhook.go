@@ -22,12 +22,12 @@ type mutatingWebhook struct {
 	v1.MutatingWebhook
 }
 
-// MutatingWebhookColumns TODO
+// MutatingWebhookColumns returns kubernetes mutating webhook fields as Osquery table columns.
 func MutatingWebhookColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&mutatingWebhook{})
 }
 
-// MutatingWebhooksGenerate TODO
+// MutatingWebhooksGenerate generates the mutating webhook Osquery table data.
 func MutatingWebhooksGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

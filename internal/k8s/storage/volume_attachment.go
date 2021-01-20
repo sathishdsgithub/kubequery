@@ -24,12 +24,12 @@ type volumeAttachment struct {
 	v1.VolumeAttachmentStatus
 }
 
-// VolumeAttachmentColumns TODO
+// VolumeAttachmentColumns returns kubernetes volume attachment fields as Osquery table columns.
 func VolumeAttachmentColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&volumeAttachment{})
 }
 
-// VolumeAttachmentsGenerate TODO
+// VolumeAttachmentsGenerate generates the kubernetes volume attachments as Osquery table data.
 func VolumeAttachmentsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

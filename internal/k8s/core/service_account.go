@@ -25,12 +25,12 @@ type serviceAccount struct {
 	AutomountServiceAccountToken *bool
 }
 
-// ServiceAccountColumns TODO
+// ServiceAccountColumns returns kubernetes service account fields as Osquery table columns.
 func ServiceAccountColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&serviceAccount{})
 }
 
-// ServiceAccountsGenerate TODO
+// ServiceAccountsGenerate generates the kubernetes service accounts as Osquery table data.
 func ServiceAccountsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

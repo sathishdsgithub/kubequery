@@ -23,12 +23,12 @@ type namespace struct {
 	v1.NamespaceStatus
 }
 
-// NamespaceColumns TODO
+// NamespaceColumns returns kubernetes namespace fields as Osquery table columns.
 func NamespaceColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&namespace{})
 }
 
-// NamespacesGenerate TODO
+// NamespacesGenerate generates the kubernetes namespaces as Osquery table data.
 func NamespacesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

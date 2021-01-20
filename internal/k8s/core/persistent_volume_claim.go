@@ -26,12 +26,12 @@ type persistentVolumeClaim struct {
 	Conditions []v1.PersistentVolumeClaimCondition
 }
 
-// PersistentVolumeClaimColumns TODO
+// PersistentVolumeClaimColumns returns kubernetes persistent volume claim fields as Osquery table columns.
 func PersistentVolumeClaimColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&persistentVolumeClaim{})
 }
 
-// PersistentVolumeClaimsGenerate TODO
+// PersistentVolumeClaimsGenerate generates the kubernetes persistent volume claims as Osquery table data.
 func PersistentVolumeClaimsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

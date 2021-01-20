@@ -22,12 +22,12 @@ type apiResource struct {
 	GroupVersion string
 }
 
-// APIResourceColumns TODO
+// APIResourceColumns returns kubernetes API resource fields as Osquery table columns.
 func APIResourceColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&apiResource{})
 }
 
-// APIResourcesGenerate TODO
+// APIResourcesGenerate generates the kubernetes API resources as Osquery table data.
 func APIResourcesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	results := make([]map[string]string, 0)
 

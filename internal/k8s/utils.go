@@ -80,7 +80,8 @@ func getFieldValue(field reflect.Value) string {
 	return ""
 }
 
-// ToMap TODO
+// ToMap returns object fields as key/value map. Field names are converted to snake case.
+// Values are converted to string. Complex value types like structures are serialized as JSON.
 func ToMap(obj interface{}) map[string]string {
 	item := make(map[string]string)
 	val := reflect.ValueOf(obj)
@@ -139,7 +140,9 @@ func getFieldSchema(name string, field reflect.Value) table.ColumnDefinition {
 	}
 }
 
-// GetSchema TODO
+// GetSchema takes a object and returns Osquery table column definitions.
+// Object field names are converted to snake case.
+// The object fields including anonymous ones are identified appropriate column definitions are identified.
 func GetSchema(obj interface{}) []table.ColumnDefinition {
 	schema := make([]table.ColumnDefinition, 0)
 	val := reflect.ValueOf(obj)

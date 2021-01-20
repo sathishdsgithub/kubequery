@@ -23,12 +23,12 @@ type componentStatus struct {
 	v1.ComponentCondition
 }
 
-// ComponentStatusColumns TODO
+// ComponentStatusColumns returns kubernetes component status fields as Osquery table columns.
 func ComponentStatusColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&componentStatus{})
 }
 
-// ComponentStatusesGenerate TODO
+// ComponentStatusesGenerate generates the kubernetes component statuses as Osquery table data.
 func ComponentStatusesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

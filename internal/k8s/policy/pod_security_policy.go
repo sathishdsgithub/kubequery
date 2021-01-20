@@ -23,12 +23,12 @@ type podSecurityPolicy struct {
 	v1beta1.PodSecurityPolicySpec
 }
 
-// PodSecurityPolicyColumns TODO
+// PodSecurityPolicyColumns returns kubernetes pod security policy fields as Osquery table columns.
 func PodSecurityPolicyColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&podSecurityPolicy{})
 }
 
-// PodSecurityPoliciesGenerate TODO
+// PodSecurityPoliciesGenerate generates the kubernetes pod security policies as Osquery table data.
 func PodSecurityPoliciesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

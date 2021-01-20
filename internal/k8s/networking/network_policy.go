@@ -23,12 +23,12 @@ type networkPolicy struct {
 	v1.NetworkPolicySpec
 }
 
-// NetworkPolicyColumns TODO
+// NetworkPolicyColumns returns kubernetes network policy fields as Osquery table columns.
 func NetworkPolicyColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&networkPolicy{})
 }
 
-// NetworkPoliciesGenerate TODO
+// NetworkPoliciesGenerate generates the kubernetes network policies as Osquery table data.
 func NetworkPoliciesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

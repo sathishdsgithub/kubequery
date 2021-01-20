@@ -31,12 +31,12 @@ type deployment struct {
 	ProgressDeadlineSeconds *int32
 }
 
-// DeploymentColumns TODO
+// DeploymentColumns returns kubernetes deployment fields as Osquery table columns.
 func DeploymentColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&deployment{})
 }
 
-// DeploymentsGenerate TODO
+// DeploymentsGenerate generates the kubernetes deployments as Osquery table data.
 func DeploymentsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)
@@ -79,12 +79,12 @@ type deploymentContainer struct {
 	ContainerType  string
 }
 
-// DeploymentContainerColumns TODO
+// DeploymentContainerColumns returns kubernetes deployment container fields as Osquery table columns.
 func DeploymentContainerColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&deploymentContainer{})
 }
 
-// DeploymentContainersGenerate TODO
+// DeploymentContainersGenerate generates the kubernetes deployment containers as Osquery table data.
 func DeploymentContainersGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)
@@ -143,12 +143,12 @@ type deploymentVolume struct {
 	DeploymentName string
 }
 
-// DeploymentVolumeColumns TODO
+// DeploymentVolumeColumns returns kubernetes deployment volume fields as Osquery table columns.
 func DeploymentVolumeColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&deploymentVolume{})
 }
 
-// DeploymentVolumesGenerate TODO
+// DeploymentVolumesGenerate generates the kubernetes deployment volumes as Osquery table data.
 func DeploymentVolumesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

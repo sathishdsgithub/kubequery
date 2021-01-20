@@ -14,12 +14,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Uptycs/kubequery/internal/k8s"
 	"github.com/Uptycs/kubequery/internal/k8s/admissionregistration"
 	"github.com/Uptycs/kubequery/internal/k8s/apps"
 	"github.com/Uptycs/kubequery/internal/k8s/autoscaling"
 	"github.com/Uptycs/kubequery/internal/k8s/batch"
-	core "github.com/Uptycs/kubequery/internal/k8s/core"
+	"github.com/Uptycs/kubequery/internal/k8s/core"
 	"github.com/Uptycs/kubequery/internal/k8s/discovery"
 	"github.com/Uptycs/kubequery/internal/k8s/networking"
 	"github.com/Uptycs/kubequery/internal/k8s/policy"
@@ -36,36 +35,7 @@ var (
 	interval = flag.Int("interval", 3, "Seconds delay between connectivity checks")
 )
 
-func main() {
-	flag.Parse()
-	if *socket == "" {
-		panic("Missing required --socket argument")
-	}
-
-	err := k8s.Init()
-	if err != nil {
-		panic(err.Error())
-	}
-
-	serverTimeout := osquery.ServerTimeout(
-		time.Second * time.Duration(*timeout),
-	)
-	serverPingInterval := osquery.ServerPingInterval(
-		time.Second * time.Duration(*interval),
-	)
-
-	// TODO: Version and SDK version
-	server, err := osquery.NewExtensionManagerServer(
-		"kubequery",
-		*socket,
-		serverTimeout,
-		serverPingInterval,
-	)
-
-	if err != nil {
-		panic(fmt.Sprintf("Error launching kubequery: %s\n", err))
-	}
-
+func registerTables(server *osquery.ExtensionManagerServer) {
 	server.RegisterPlugin(
 		// Admission Registration
 		table.NewPlugin("kubernetes_mutating_webhooks", admissionregistration.MutatingWebhookColumns(), admissionregistration.MutatingWebhooksGenerate),
@@ -136,7 +106,26 @@ func main() {
 		table.NewPlugin("kubernetes_storage_classes", storage.SGClassColumns(), storage.SGClassesGenerate),
 		table.NewPlugin("kubernetes_volume_attachments", storage.VolumeAttachmentColumns(), storage.VolumeAttachmentsGenerate),
 	)
+}
 
+func main() {
+	flag.Parse()
+	if *socket == "" {
+		panic("Missing required --socket argument")
+	}
+
+	// TODO: Version and SDK version
+	server, err := osquery.NewExtensionManagerServer(
+		"kubequery",
+		*socket,
+		osquery.ServerTimeout(time.Second*time.Duration(*timeout)),
+		osquery.ServerPingInterval(time.Second*time.Duration(*interval)),
+	)
+	if err != nil {
+		panic(fmt.Sprintf("Error launching kubequery: %s\n", err))
+	}
+
+	registerTables(server)
 	if err := server.Run(); err != nil {
 		panic(err)
 	}

@@ -23,12 +23,12 @@ type limitRange struct {
 	v1.LimitRangeItem
 }
 
-// LimitRangeColumns TODO
+// LimitRangeColumns returns kubernetes limit range fields as Osquery table columns.
 func LimitRangeColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&limitRange{})
 }
 
-// LimitRangesGenerate TODO
+// LimitRangesGenerate generates the kubernetes limit ranges as Osquery table data.
 func LimitRangesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

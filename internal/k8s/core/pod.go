@@ -24,12 +24,12 @@ type pod struct {
 	v1.PodStatus
 }
 
-// PodColumns TODO
+// PodColumns returns kubernetes pod fields as Osquery table columns.
 func PodColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&pod{})
 }
 
-// PodsGenerate TODO
+// PodsGenerate generates the kubernetes pods as Osquery table data.
 func PodsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)
@@ -72,7 +72,7 @@ type podContainer struct {
 	Started              *bool
 }
 
-// PodContainerColumns TODO
+// PodContainerColumns returns kubernetes pod container fields as Osquery table columns.
 func PodContainerColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&podContainer{})
 }
@@ -113,7 +113,7 @@ func createPodEphemeralContainer(p v1.Pod, c v1.EphemeralContainer, cs v1.Contai
 	return item
 }
 
-// PodContainersGenerate TODO
+// PodContainersGenerate generates the kubernetes pod containers as Osquery table data.
 func PodContainersGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)
@@ -154,12 +154,12 @@ type podVolume struct {
 	PodName string
 }
 
-// PodVolumeColumns TODO
+// PodVolumeColumns returns kubernetes pod volume fields as Osquery table columns.
 func PodVolumeColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&podVolume{})
 }
 
-// PodVolumesGenerate TODO
+// PodVolumesGenerate generates the kubernetes pod volumes as Osquery table data.
 func PodVolumesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

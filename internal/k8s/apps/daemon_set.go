@@ -28,12 +28,12 @@ type daemonSet struct {
 	RevisionHistoryLimit *int32
 }
 
-// DaemonSetColumns TODO
+// DaemonSetColumns returns kubernetes daemon set fields as Osquery table columns.
 func DaemonSetColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&daemonSet{})
 }
 
-// DaemonSetsGenerate TODO
+// DaemonSetsGenerate generates the kubernetes daemon sets as Osquery table data.
 func DaemonSetsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)
@@ -73,12 +73,12 @@ type daemonSetContainer struct {
 	ContainerType string
 }
 
-// DaemonSetContainerColumns TODO
+// DaemonSetContainerColumns returns kubernetes daemon set container fields as Osquery table columns.
 func DaemonSetContainerColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&daemonSetContainer{})
 }
 
-// DaemonSetContainersGenerate TODO
+// DaemonSetContainersGenerate generates the kubernetes daemon set containers as Osquery table data.
 func DaemonSetContainersGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)
@@ -137,12 +137,12 @@ type daemonSetVolume struct {
 	DaemonSetName string
 }
 
-// DaemonSetVolumeColumns TODO
+// DaemonSetVolumeColumns returns kubernetes daemon set volume fields as Osquery table columns.
 func DaemonSetVolumeColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&daemonSetVolume{})
 }
 
-// DaemonSetVolumesGenerate TODO
+// DaemonSetVolumesGenerate generates the kubernetes daemon set volumes as Osquery table data.
 func DaemonSetVolumesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

@@ -26,12 +26,12 @@ type roleBindingSubject struct {
 	SubjectNamespace string
 }
 
-// RoleBindingSubjectColumns TODO
+// RoleBindingSubjectColumns returns kubernetes role binding subject fields as Osquery table columns.
 func RoleBindingSubjectColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&roleBindingSubject{})
 }
 
-// RoleBindingSubjectsGenerate TODO
+// RoleBindingSubjectsGenerate generates the kubernetes role binding subjects as Osquery table data.
 func RoleBindingSubjectsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

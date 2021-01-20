@@ -24,12 +24,12 @@ type horizontalPodAutoscaler struct {
 	v1.HorizontalPodAutoscalerStatus
 }
 
-// HorizontalPodAutoscalersColumns TODO
+// HorizontalPodAutoscalersColumns returns kubernetes horizontal pod autoscaler fields as Osquery table columns.
 func HorizontalPodAutoscalersColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&horizontalPodAutoscaler{})
 }
 
-// HorizontalPodAutoscalerGenerate TODO
+// HorizontalPodAutoscalerGenerate generates the kubernetes horizontal pod autoscalers as Osquery table data.
 func HorizontalPodAutoscalerGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

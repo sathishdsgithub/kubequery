@@ -22,12 +22,12 @@ type podTemplate struct {
 	k8s.CommonPodFields
 }
 
-// PodTemplateColumns TODO
+// PodTemplateColumns returns kubernetes pod template fields as Osquery table columns.
 func PodTemplateColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&podTemplate{})
 }
 
-// PodTemplatesGenerate TODO
+// PodTemplatesGenerate generates the kubernetes pod templates as Osquery table data.
 func PodTemplatesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

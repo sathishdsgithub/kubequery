@@ -22,12 +22,12 @@ type configmap struct {
 	Immutable *bool
 }
 
-// ConfigMapColumns TODO
+// ConfigMapColumns returns kubernetes config map fields as Osquery table columns.
 func ConfigMapColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&configmap{})
 }
 
-// ConfigMapsGenerate TODO
+// ConfigMapsGenerate generates the kubernetes config maps as Osquery table data.
 func ConfigMapsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

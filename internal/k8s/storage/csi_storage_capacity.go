@@ -25,12 +25,12 @@ type csiStorageCapacity struct {
 	Capacity         *resource.Quantity
 }
 
-// CSIStorageCapacityColumns TODO
+// CSIStorageCapacityColumns returns kubernetes CSI storage capacity fields as Osquery table columns.
 func CSIStorageCapacityColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&csiStorageCapacity{})
 }
 
-// CSIStorageCapacitiesGenerate TODO
+// CSIStorageCapacitiesGenerate generates the kubernetes CSI storage capacities as Osquery table data.
 func CSIStorageCapacitiesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

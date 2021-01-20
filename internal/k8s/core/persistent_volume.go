@@ -102,12 +102,12 @@ type persistentVolume struct {
 	CSIVolumeAttributes            map[string]string
 }
 
-// PersistentVolumeColumns TODO
+// PersistentVolumeColumns returns kubernetes persistent volume fields as Osquery table columns.
 func PersistentVolumeColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&persistentVolume{})
 }
 
-// PersistentVolumesGenerate TODO
+// PersistentVolumesGenerate generates the kubernetes persistent volumes as Osquery table data.
 func PersistentVolumesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

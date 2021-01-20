@@ -23,12 +23,12 @@ type endpointSubset struct {
 	v1.EndpointSubset
 }
 
-// EndpointSubsetColumns TODO
+// EndpointSubsetColumns returns kubernetes endpoint subset fields as Osquery table columns.
 func EndpointSubsetColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&endpointSubset{})
 }
 
-// EndpointSubsetsGenerate TODO
+// EndpointSubsetsGenerate generates the kubernetes endpoint subsets as Osquery table data.
 func EndpointSubsetsGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

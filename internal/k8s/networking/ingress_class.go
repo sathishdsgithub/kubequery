@@ -23,12 +23,12 @@ type ingressClass struct {
 	v1.IngressClassSpec
 }
 
-// IngressClassColumns TODO
+// IngressClassColumns returns kubernetes ingress class fields as Osquery table columns.
 func IngressClassColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&ingressClass{})
 }
 
-// IngressClassesGenerate TODO
+// IngressClassesGenerate generates the kubernetes ingress classes as Osquery table data.
 func IngressClassesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)

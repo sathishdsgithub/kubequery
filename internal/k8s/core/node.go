@@ -24,12 +24,12 @@ type node struct {
 	v1.NodeStatus
 }
 
-// NodeColumns TODO
+// NodeColumns returns kubernetes node fields as Osquery table columns.
 func NodeColumns() []table.ColumnDefinition {
 	return k8s.GetSchema(&node{})
 }
 
-// NodesGenerate TODO
+// NodesGenerate generates the kubernetes nodes as Osquery table data.
 func NodesGenerate(ctx context.Context, queryContext table.QueryContext) ([]map[string]string, error) {
 	options := metav1.ListOptions{}
 	results := make([]map[string]string, 0)
