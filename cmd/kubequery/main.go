@@ -72,6 +72,8 @@ func registerTables(server *osquery.ExtensionManagerServer) {
 		table.NewPlugin("kubernetes_persistent_volume_claims", core.PersistentVolumeClaimColumns(), core.PersistentVolumeClaimsGenerate),
 		table.NewPlugin("kubernetes_persistent_volumes", core.PersistentVolumeColumns(), core.PersistentVolumesGenerate),
 		table.NewPlugin("kubernetes_pod_templates", core.PodTemplateColumns(), core.PodTemplatesGenerate),
+		table.NewPlugin("kubernetes_pod_template_containers", core.PodTemplateContainerColumns(), core.PodTemplateContainersGenerate),
+		table.NewPlugin("kubernetes_pod_templates_volumes", core.PodTemplateVolumeColumns(), core.PodTemplateVolumesGenerate),
 		table.NewPlugin("kubernetes_pods", core.PodColumns(), core.PodsGenerate),
 		table.NewPlugin("kubernetes_pod_containers", core.PodContainerColumns(), core.PodContainersGenerate),
 		table.NewPlugin("kubernetes_pod_volumes", core.PodVolumeColumns(), core.PodVolumesGenerate),
