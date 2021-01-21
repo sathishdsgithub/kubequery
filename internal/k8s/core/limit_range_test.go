@@ -13,43 +13,16 @@ import (
 	"context"
 	"testing"
 
-	"github.com/Uptycs/kubequery/internal/k8s"
 	"github.com/kolide/osquery-go/plugin/table"
 	"github.com/stretchr/testify/assert"
-	v1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/resource"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/client-go/kubernetes/fake"
 )
 
 func TestLimitRangesGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(&v1.LimitRange{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      "lr1",
-			Namespace: "n123",
-			UID:       types.UID("1234"),
-			Labels:    map[string]string{"a": "b"},
-		},
-		Spec: v1.LimitRangeSpec{
-			Limits: []v1.LimitRangeItem{
-				{
-					Type:                 v1.LimitTypeContainer,
-					Max:                  v1.ResourceList{v1.ResourceCPU: resource.MustParse("0")},
-					Min:                  v1.ResourceList{v1.ResourceCPU: resource.MustParse("4")},
-					Default:              v1.ResourceList{v1.ResourceCPU: resource.MustParse("3")},
-					DefaultRequest:       v1.ResourceList{v1.ResourceCPU: resource.MustParse("2")},
-					MaxLimitRequestRatio: v1.ResourceList{v1.ResourceCPU: resource.MustParse("1")},
-				},
-			},
-		},
-	}), types.UID("hello"))
-
 	js, err := LimitRangesGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{
 		{
-			"cluster_uid":             "hello",
+			"cluster_uid":             "d7fd8e77-93de-4742-9037-5db9a01e966a",
 			"creation_timestamp":      "0",
 			"default":                 "{\"cpu\":\"3\"}",
 			"default_request":         "{\"cpu\":\"2\"}",
