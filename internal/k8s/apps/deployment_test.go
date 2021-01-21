@@ -42,7 +42,7 @@ func TestDeploymentsGenerate(t *testing.T) {
 		{
 			"available_replicas":   "0",
 			"cluster_uid":          "blah",
-			"creation_timestamp":   "-62135596800",
+			"creation_timestamp":   "0",
 			"host_ipc":             "0",
 			"host_network":         "0",
 			"host_pid":             "0",

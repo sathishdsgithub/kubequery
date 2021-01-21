@@ -44,6 +44,9 @@ func getFieldValue(field reflect.Value) string {
 
 	if tp.PkgPath() == "k8s.io/apimachinery/pkg/apis/meta/v1" && tp.Name() == "Time" {
 		i := field.Interface()
+		if i.(metav1.Time).UTC().IsZero() {
+			return "0"
+		}
 		return strconv.FormatInt(i.(metav1.Time).Unix(), 10)
 	}
 
