@@ -11,31 +11,13 @@ package apps
 
 import (
 	"context"
-	"encoding/json"
-	"io/ioutil"
 	"testing"
 
-	"github.com/Uptycs/kubequery/internal/k8s"
 	"github.com/kolide/osquery-go/plugin/table"
 	"github.com/stretchr/testify/assert"
-	v1 "k8s.io/api/apps/v1"
-	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/client-go/kubernetes/fake"
 )
 
-func getStatefulSet(t *testing.T) *v1.StatefulSet {
-	data, err := ioutil.ReadFile("stateful_set_test.json")
-	assert.Nil(t, err)
-
-	ss := &v1.StatefulSet{}
-	err = json.Unmarshal(data, ss)
-	assert.Nil(t, err)
-
-	return ss
-}
-
 func TestStatefulSetsGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getStatefulSet(t)), types.UID("blah"))
 	sss, err := StatefulSetsGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{
@@ -77,7 +59,6 @@ func TestStatefulSetsGenerate(t *testing.T) {
 }
 
 func TestStatefulSetContainersGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getStatefulSet(t)), types.UID("blah"))
 	sss, err := StatefulSetContainersGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{
@@ -129,7 +110,6 @@ func TestStatefulSetContainersGenerate(t *testing.T) {
 }
 
 func TestStatefulSetVolumesGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getStatefulSet(t)), types.UID("blah"))
 	sss, err := StatefulSetVolumesGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{

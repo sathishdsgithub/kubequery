@@ -11,31 +11,13 @@ package apps
 
 import (
 	"context"
-	"encoding/json"
-	"io/ioutil"
 	"testing"
 
-	"github.com/Uptycs/kubequery/internal/k8s"
 	"github.com/kolide/osquery-go/plugin/table"
 	"github.com/stretchr/testify/assert"
-	v1 "k8s.io/api/apps/v1"
-	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/client-go/kubernetes/fake"
 )
 
-func getDeployment(t *testing.T) *v1.Deployment {
-	data, err := ioutil.ReadFile("deployment_test.json")
-	assert.Nil(t, err)
-
-	d := &v1.Deployment{}
-	err = json.Unmarshal(data, d)
-	assert.Nil(t, err)
-
-	return d
-}
-
 func TestDeploymentsGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getDeployment(t)), types.UID("blah"))
 	ds, err := DeploymentsGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{
@@ -59,14 +41,12 @@ func TestDeploymentsGenerate(t *testing.T) {
 }
 
 func TestDeploymentContainersGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getDeployment(t)), types.UID("blah"))
 	ds, err := DeploymentContainersGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{}, ds)
 }
 
 func TestDeploymentVolumesGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getDeployment(t)), types.UID("blah"))
 	ds, err := DeploymentVolumesGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{}, ds)

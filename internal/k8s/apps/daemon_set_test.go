@@ -11,31 +11,13 @@ package apps
 
 import (
 	"context"
-	"encoding/json"
-	"io/ioutil"
 	"testing"
 
-	"github.com/Uptycs/kubequery/internal/k8s"
 	"github.com/kolide/osquery-go/plugin/table"
 	"github.com/stretchr/testify/assert"
-	v1 "k8s.io/api/apps/v1"
-	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/client-go/kubernetes/fake"
 )
 
-func getDaemonSet(t *testing.T) *v1.DaemonSet {
-	data, err := ioutil.ReadFile("daemon_set_test.json")
-	assert.Nil(t, err)
-
-	ds := &v1.DaemonSet{}
-	err = json.Unmarshal(data, ds)
-	assert.Nil(t, err)
-
-	return ds
-}
-
 func TestDaemonSetsGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getDaemonSet(t)), types.UID("blah"))
 	dss, err := DaemonSetsGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{
@@ -75,7 +57,6 @@ func TestDaemonSetsGenerate(t *testing.T) {
 }
 
 func TestDaemonSetContainersGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getDaemonSet(t)), types.UID("blah"))
 	dss, err := DaemonSetContainersGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{
@@ -174,7 +155,6 @@ func TestDaemonSetContainersGenerate(t *testing.T) {
 }
 
 func TestDaemonSetVolumesGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getDaemonSet(t)), types.UID("blah"))
 	dss, err := DaemonSetVolumesGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{

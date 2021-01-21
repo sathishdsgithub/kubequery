@@ -11,31 +11,13 @@ package apps
 
 import (
 	"context"
-	"encoding/json"
-	"io/ioutil"
 	"testing"
 
-	"github.com/Uptycs/kubequery/internal/k8s"
 	"github.com/kolide/osquery-go/plugin/table"
 	"github.com/stretchr/testify/assert"
-	v1 "k8s.io/api/apps/v1"
-	"k8s.io/apimachinery/pkg/types"
-	"k8s.io/client-go/kubernetes/fake"
 )
 
-func getReplicaSet(t *testing.T) *v1.ReplicaSet {
-	data, err := ioutil.ReadFile("replica_set_test.json")
-	assert.Nil(t, err)
-
-	rs := &v1.ReplicaSet{}
-	err = json.Unmarshal(data, rs)
-	assert.Nil(t, err)
-
-	return rs
-}
-
 func TestReplicaSetsGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getReplicaSet(t)), types.UID("blah"))
 	rss, err := ReplicaSetsGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{
@@ -68,7 +50,6 @@ func TestReplicaSetsGenerate(t *testing.T) {
 }
 
 func TestReplicaSetContainersGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getReplicaSet(t)), types.UID("blah"))
 	rss, err := ReplicaSetContainersGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{
@@ -98,7 +79,6 @@ func TestReplicaSetContainersGenerate(t *testing.T) {
 }
 
 func TestReplicaSetVolumesGenerate(t *testing.T) {
-	k8s.SetClient(fake.NewSimpleClientset(getReplicaSet(t)), types.UID("blah"))
 	rss, err := ReplicaSetVolumesGenerate(context.TODO(), table.QueryContext{})
 	assert.Nil(t, err)
 	assert.Equal(t, []map[string]string{}, rss)

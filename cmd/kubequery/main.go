@@ -64,7 +64,6 @@ func registerTables(server *osquery.ExtensionManagerServer) {
 		table.NewPlugin("kubernetes_jobs", batch.JobColumns(), batch.JobsGenerate),
 
 		// Core
-		table.NewPlugin("kubernetes_component_statuses", core.ComponentStatusColumns(), core.ComponentStatusesGenerate),
 		table.NewPlugin("kubernetes_config_maps", core.ConfigMapColumns(), core.ConfigMapsGenerate),
 		table.NewPlugin("kubernetes_endpoint_subsets", core.EndpointSubsetColumns(), core.EndpointSubsetsGenerate),
 		table.NewPlugin("kubernetes_limit_ranges", core.LimitRangeColumns(), core.LimitRangesGenerate),
